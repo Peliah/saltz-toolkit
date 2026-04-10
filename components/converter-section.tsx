@@ -112,8 +112,8 @@ export function ConverterSection() {
 
   return (
     <View style={styles.wrap}>
-      <SketchText variant="heading" size="xl" style={styles.sectionTitle}>
-        Conversion
+      <SketchText variant="heading" size="2xl" style={styles.sectionTitle}>
+        Saltz Toolkit
       </SketchText>
 
       <View style={styles.categoryRow}>

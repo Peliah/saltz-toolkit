@@ -1,8 +1,8 @@
-import { useEffect } from 'react';
+import { useSketchFonts } from '@/hooks/use-sketch-fonts';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
-import { useSketchFonts } from '@/hooks/use-sketch-fonts';
+import { useEffect } from 'react';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -23,7 +23,6 @@ export default function RootLayout() {
     <>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="tools" options={{ headerShown: false }} />
       </Stack>
       <StatusBar style="dark" />
     </>

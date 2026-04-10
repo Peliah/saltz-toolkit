@@ -1,11 +1,10 @@
 import { ConverterSection } from '@/components/converter-section';
+import { MoreToolsSection } from '@/components/more-tools-section';
 import { SketchScreen } from '@/components/sketch/sketch-screen';
-import { SketchText } from '@/components/sketch/sketch-text';
 import { Border, Colors, Spacing } from '@/constants/theme';
-import Ionicons from '@expo/vector-icons/Ionicons';
 import { useRouter } from 'expo-router';
 import React from 'react';
-import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -17,7 +16,7 @@ export default function HomeScreen() {
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
       >
-        <View style={styles.topBar}>
+        {/* <View style={styles.topBar}>
           <SketchText variant="heading" size="2xl" numberOfLines={1} style={styles.wordmark}>
             Saltz Toolkit
           </SketchText>
@@ -29,9 +28,11 @@ export default function HomeScreen() {
           >
             <Ionicons name="apps-outline" size={22} color={Colors.foreground} />
           </Pressable>
-        </View>
+        </View> */}
 
         <ConverterSection />
+
+        <MoreToolsSection />
       </ScrollView>
     </SketchScreen>
   );
@@ -68,16 +69,5 @@ const styles = StyleSheet.create({
   },
   iconBtnPressed: {
     opacity: 0.88,
-  },
-  hero: {
-    gap: Spacing[2],
-    marginBottom: Spacing[2],
-  },
-  heroTitle: {
-    letterSpacing: -0.5,
-  },
-  heroSub: {
-    lineHeight: 24,
-    maxWidth: 340,
   },
 });

@@ -1,6 +1,3 @@
-/**
- * Pure conversion helpers — no React. Currency uses rates from Frankfurter API shape.
- */
 
 export type ConversionCategory = 'length' | 'weight' | 'temperature' | 'currency';
 
@@ -114,9 +111,7 @@ export type FrankfurterLatest = {
   rates: Record<string, number>;
 };
 
-/**
- * Converts using Frankfurter `latest` JSON: pivot currency is `base`.
- */
+
 export function convertCurrency(
   value: number,
   from: string,
@@ -193,7 +188,7 @@ export function getUnitsForCategory(category: ConversionCategory): UnitDef[] {
 }
 
 export async function fetchFrankfurterLatest(): Promise<FrankfurterLatest> {
-  const res = await fetch('https://api.frankfurter.app/v1/latest');
+  const res = await fetch('https://api.frankfurter.dev/v1/latest');
   if (!res.ok) {
     throw new Error(`Rates request failed: ${res.status}`);
   }
