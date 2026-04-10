@@ -25,7 +25,7 @@ export default function TabLayout() {
           ),
         }}
       />
-      <Tabs.Screen
+      {/* <Tabs.Screen
         name="notes"
         options={{
           title: 'Notes',
@@ -33,7 +33,7 @@ export default function TabLayout() {
             <TabIcon name="document-text-outline" color={color} focused={focused} />
           ),
         }}
-      />
+      /> */}
     </Tabs>
   );
 }
