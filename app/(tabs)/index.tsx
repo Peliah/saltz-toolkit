@@ -2,12 +2,10 @@ import { ConverterSection } from '@/components/converter-section';
 import { MoreToolsSection } from '@/components/more-tools-section';
 import { SketchScreen } from '@/components/sketch/sketch-screen';
 import { Border, Colors, Spacing } from '@/constants/theme';
-import { useRouter } from 'expo-router';
 import React from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 
 export default function HomeScreen() {
-  const router = useRouter();
 
   return (
     <SketchScreen>
@@ -16,19 +14,6 @@ export default function HomeScreen() {
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
       >
-        {/* <View style={styles.topBar}>
-          <SketchText variant="heading" size="2xl" numberOfLines={1} style={styles.wordmark}>
-            Saltz Toolkit
-          </SketchText>
-          <Pressable
-            onPress={() => router.push('/tools')}
-            style={({ pressed }) => [styles.iconBtn, pressed && styles.iconBtnPressed]}
-            accessibilityRole="button"
-            accessibilityLabel="All tools"
-          >
-            <Ionicons name="apps-outline" size={22} color={Colors.foreground} />
-          </Pressable>
-        </View> */}
 
         <ConverterSection />
 
