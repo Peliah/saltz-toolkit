@@ -1,7 +1,7 @@
-import React from 'react';
-import { View, StyleSheet, ViewProps } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { Colors } from '@/constants/theme';
+import React from 'react';
+import { StyleSheet, View, ViewProps } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface SketchScreenProps extends ViewProps {
   children: React.ReactNode;

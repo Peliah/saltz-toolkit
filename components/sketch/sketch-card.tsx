@@ -1,6 +1,6 @@
+import { Border, Colors, Radius, Shadow } from '@/constants/theme';
 import React from 'react';
-import { View, ViewProps, StyleSheet, ViewStyle } from 'react-native';
-import { Colors, Radius, Shadow, Border } from '@/constants/theme';
+import { StyleSheet, View, ViewProps, ViewStyle } from 'react-native';
 
 interface SketchCardProps extends ViewProps {
   decoration?: 'tape' | 'tack' | 'none';

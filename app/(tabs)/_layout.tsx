@@ -1,8 +1,8 @@
+import { Border, Colors, FontFamily, Shadow } from '@/constants/theme';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { Tabs } from 'expo-router';
 import React from 'react';
-import { Platform, StyleSheet, Text, View } from 'react-native';
-
-import { Border, Colors, FontFamily, Shadow } from '@/constants/theme';
+import { Platform, StyleSheet, View } from 'react-native';
 
 export default function TabLayout() {
   return (
@@ -21,16 +21,16 @@ export default function TabLayout() {
         options={{
           title: 'Home',
           tabBarIcon: ({ color, focused }) => (
-            <TabIcon emoji="" color={color} focused={focused} />
+            <TabIcon name="home-outline" color={color} focused={focused} />
           ),
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="notes"
         options={{
-          title: 'Explore',
+          title: 'Notes',
           tabBarIcon: ({ color, focused }) => (
-            <TabIcon emoji="" color={color} focused={focused} />
+            <TabIcon name="document-text-outline" color={color} focused={focused} />
           ),
         }}
       />
@@ -39,16 +39,17 @@ export default function TabLayout() {
 }
 
 function TabIcon({
-  emoji,
+  name,
+  color,
   focused,
 }: {
-  emoji: string;
+  name: React.ComponentProps<typeof Ionicons>['name'];
   color: string;
   focused: boolean;
 }) {
   return (
     <View style={[styles.iconWrap, focused && styles.iconWrapActive]}>
-      <Text style={styles.emoji}>{emoji}</Text>
+      <Ionicons name={name} size={22} color={color} />
     </View>
   );
 }
@@ -94,8 +95,5 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 6,
     borderBottomRightRadius: 12,
     borderBottomLeftRadius: 7,
-  },
-  emoji: {
-    fontSize: 20,
   },
 });

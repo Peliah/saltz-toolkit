@@ -1,11 +1,11 @@
+import { Border, Colors, FontSize, Radius, Shadow } from '@/constants/theme';
 import React, { useState } from 'react';
 import {
-  Pressable,
-  PressableProps,
-  StyleSheet,
-  ViewStyle,
+    Pressable,
+    PressableProps,
+    StyleSheet,
+    ViewStyle,
 } from 'react-native';
-import { Colors, Radius, Shadow, Border, FontSize } from '@/constants/theme';
 import { SketchText } from './sketch-text';
 
 interface SketchButtonProps extends Omit<PressableProps, 'style'> {

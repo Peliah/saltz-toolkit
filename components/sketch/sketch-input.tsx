@@ -1,12 +1,12 @@
+import { Border, Colors, FontFamily, FontSize, Radius } from '@/constants/theme';
 import React, { useState } from 'react';
 import {
-  TextInput,
-  TextInputProps,
-  StyleSheet,
-  View,
-  ViewStyle,
+    StyleSheet,
+    TextInput,
+    TextInputProps,
+    View,
+    ViewStyle,
 } from 'react-native';
-import { Colors, Radius, Border, FontFamily, FontSize } from '@/constants/theme';
 import { SketchText } from './sketch-text';
 
 interface SketchInputProps extends TextInputProps {

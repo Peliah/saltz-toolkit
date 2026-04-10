@@ -1,6 +1,6 @@
-import React from 'react';
-import { Text, TextProps, StyleSheet } from 'react-native';
 import { Colors, FontFamily, FontSize } from '@/constants/theme';
+import React from 'react';
+import { StyleSheet, Text, TextProps } from 'react-native';
 
 interface SketchTextProps extends TextProps {
   variant?: 'heading' | 'body';

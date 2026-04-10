@@ -1,6 +1,6 @@
-import { useFonts } from 'expo-font';
 import { Kalam_700Bold } from '@expo-google-fonts/kalam';
 import { PatrickHand_400Regular } from '@expo-google-fonts/patrick-hand';
+import { useFonts } from 'expo-font';
 
 /**
  * Load all hand-drawn theme fonts.
