@@ -1,16 +1,26 @@
 // ─────────────────────────────────────────────
-//  Saltz Toolkit — Hand-Drawn Design Tokens
+//  Saltz Toolkit — design tokens (kit + sketch)
 // ─────────────────────────────────────────────
 
 export const Colors = {
-  background: '#fdfbf7',   // Warm paper
-  foreground: '#2d2d2d',   // Soft pencil black
-  muted: '#e5e0d8',        // Old paper / erased pencil
-  accent: '#ff4d4d',       // Red correction marker
-  accentBlue: '#2d5da1',   // Blue ballpoint pen
-  border: '#2d2d2d',       // Pencil lead
-  white: '#ffffff',
-  postIt: '#fff9c4',       // Post-it yellow
+  canvas: '#EDE8DF',
+  surface: '#FFFBF5',
+  surfaceMuted: '#F3EEE6',
+  ink: '#25211E',
+  inkMuted: '#6B645C',
+  borderSubtle: '#D1C9BC',
+  accent: '#B8432C',
+  accentMuted: 'rgba(184, 67, 44, 0.14)',
+  accentSecondary: '#355A73',
+  danger: '#B42318',
+
+  background: '#EDE8DF',
+  foreground: '#25211E',
+  muted: '#8A8279',
+  accentBlue: '#355A73',
+  border: '#25211E',
+  white: '#FFFBF5',
+  postIt: '#F2E6A6',
 } as const;
 
 export const FontFamily = {
@@ -44,24 +54,22 @@ export const Spacing = {
   20: 80,
 } as const;
 
-// Asymmetric per-corner radii to fake wobbly hand-drawn borders.
-// React Native takes [topLeft, topRight, bottomRight, bottomLeft].
 export const Radius = {
-  // Wobbly small — for buttons, badges, inputs
+  sm: { borderRadius: 10 },
+  md: { borderRadius: 14 },
+  lg: { borderRadius: 20 },
   wobbly: {
     borderTopLeftRadius: 12,
     borderTopRightRadius: 6,
     borderBottomRightRadius: 14,
     borderBottomLeftRadius: 8,
   },
-  // Wobbly medium — for cards, containers
   wobblyMd: {
     borderTopLeftRadius: 18,
     borderTopRightRadius: 8,
     borderBottomRightRadius: 22,
     borderBottomLeftRadius: 12,
   },
-  // Wobbly large — for modals, full-width panels
   wobblyLg: {
     borderTopLeftRadius: 28,
     borderTopRightRadius: 14,
@@ -70,44 +78,49 @@ export const Radius = {
   },
 } as const;
 
-// Hard offset shadows — no blur, solid offset (cut-paper aesthetic).
-// iOS uses shadow* props; Android uses elevation.
 export const Shadow = {
   sm: {
-    // iOS
-    shadowColor: Colors.foreground,
-    shadowOffset: { width: 3, height: 3 },
-    shadowOpacity: 1,
+    shadowColor: '#25211E',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
     shadowRadius: 0,
-    // Android
-    elevation: 3,
+    elevation: 2,
   },
   md: {
-    shadowColor: Colors.foreground,
-    shadowOffset: { width: 4, height: 4 },
-    shadowOpacity: 1,
+    shadowColor: '#25211E',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.1,
+    shadowRadius: 0,
+    elevation: 3,
+  },
+  lg: {
+    shadowColor: '#25211E',
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.12,
     shadowRadius: 0,
     elevation: 5,
   },
-  lg: {
-    shadowColor: Colors.foreground,
-    shadowOffset: { width: 6, height: 6 },
-    shadowOpacity: 1,
-    shadowRadius: 0,
-    elevation: 8,
-  },
-  // Pressed state — shadow nearly disappears
   pressed: {
-    shadowColor: Colors.foreground,
-    shadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 1,
+    shadowColor: '#25211E',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.06,
     shadowRadius: 0,
     elevation: 1,
   },
 } as const;
 
+export const PaperShadow = {
+  hubTile: {
+    shadowColor: '#25211E',
+    shadowOffset: { width: 3, height: 3 },
+    shadowOpacity: 1,
+    shadowRadius: 0,
+    elevation: 3,
+  },
+} as const;
+
 export const Border = {
   thin: 2,
-  default: 3,
-  thick: 4,
+  default: 2,
+  thick: 3,
 } as const;

@@ -10,10 +10,11 @@ export default function TabLayout() {
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: Colors.accent,
-        tabBarInactiveTintColor: `${Colors.foreground}66`,
+        tabBarInactiveTintColor: `${Colors.ink}66`,
         tabBarLabelStyle: styles.label,
         tabBarStyle: styles.tabBar,
         tabBarBackground: () => <TabBarBackground />,
+        tabBarItemStyle: { paddingTop: 4 },
       }}
     >
       <Tabs.Screen
@@ -21,7 +22,7 @@ export default function TabLayout() {
         options={{
           title: 'Home',
           tabBarIcon: ({ color, focused }) => (
-            <TabIcon name="home-outline" color={color} focused={focused} />
+            <TabIcon name="apps-outline" color={color} focused={focused}  />
           ),
         }}
       />
@@ -69,13 +70,11 @@ const styles = StyleSheet.create({
   },
   tabBarBackground: {
     flex: 1,
-    backgroundColor: Colors.background,
-    borderTopWidth: Border.default,
-    borderTopColor: Colors.border,
-    ...Shadow.md,
-    shadowOffset: { width: 0, height: -3 },
-    borderTopLeftRadius: 18,
-    borderTopRightRadius: 10,
+    backgroundColor: Colors.surface,
+    borderTopWidth: Border.thin,
+    borderTopColor: Colors.borderSubtle,
+    ...Shadow.sm,
+    shadowOffset: { width: 0, height: -2 },
   },
   label: {
     fontFamily: FontFamily.body,
@@ -95,5 +94,6 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 6,
     borderBottomRightRadius: 12,
     borderBottomLeftRadius: 7,
+    marginBottom: 5
   },
 });
