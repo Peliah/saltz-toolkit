@@ -19,7 +19,7 @@ export function ScreenHeader({ title, onBack, right }: ScreenHeaderProps) {
         accessibilityRole="button"
         accessibilityLabel="Go back"
       >
-        <Ionicons name="arrow-back" size={22} color={Colors.foreground} />
+        <Ionicons name="arrow-back" size={22} color={Colors.ink} />
       </Pressable>
       <SketchText variant="heading" size="2xl" style={styles.title} numberOfLines={1}>
         {title}

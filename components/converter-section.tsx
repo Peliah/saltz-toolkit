@@ -112,10 +112,6 @@ export function ConverterSection() {
 
   return (
     <View style={styles.wrap}>
-      <SketchText variant="heading" size="2xl" style={styles.sectionTitle}>
-        Saltz Toolkit
-      </SketchText>
-
       <View style={styles.categoryRow}>
         {CATEGORIES.map((c) => {
           const active = category === c.id;
@@ -237,9 +233,6 @@ export function ConverterSection() {
 const styles = StyleSheet.create({
   wrap: {
     gap: Spacing[4],
-  },
-  sectionTitle: {
-    marginBottom: Spacing[1],
   },
   categoryRow: {
     flexDirection: 'row',
