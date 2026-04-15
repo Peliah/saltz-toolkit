@@ -16,7 +16,7 @@ export function NotesList({ notes, onNew, onSelectNote }: NotesListProps) {
   return (
     <View style={styles.wrap}>
       <SketchText variant="body" size="sm" muted style={styles.intro}>
-        Saved on this device only.
+        Saved list of notes.
       </SketchText>
 
       <Pressable onPress={onNew} style={({ pressed }) => [styles.newBtn, pressed && styles.newBtnPressed]}>

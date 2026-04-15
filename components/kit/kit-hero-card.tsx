@@ -8,14 +8,16 @@ import { Pressable, StyleSheet, View } from 'react-native';
 
 export function KitHeroCard() {
   const router = useRouter();
-  const { openCount, previewTitles } = useTasksHubPreview();
+  const { openCount, overdueCount, todayDueCount, previewTitles } = useTasksHubPreview();
 
   return (
     <Pressable
       onPress={() => router.push('/tools/tasks')}
       style={({ pressed }) => [styles.wrap, pressed && styles.wrapPressed]}
       accessibilityRole="button"
-      accessibilityLabel={`Today's tasks, ${openCount} open. Open task list.`}
+      accessibilityLabel={`Today's tasks, ${openCount} open${
+        overdueCount > 0 ? `, ${overdueCount} overdue` : ''
+      }. Open task list.`}
     >
 
 
@@ -41,6 +43,25 @@ export function KitHeroCard() {
             </View>
           </View>
         </View>
+        {overdueCount > 0 || todayDueCount > 0 ? (
+          <View style={styles.teaserRow}>
+            {overdueCount > 0 ? (
+              <SketchText variant="body" size="sm" style={styles.teaserOverdue}>
+                {overdueCount} overdue
+              </SketchText>
+            ) : null}
+            {overdueCount > 0 && todayDueCount > 0 ? (
+              <SketchText variant="body" size="sm" muted style={styles.teaserSep}>
+                {' · '}
+              </SketchText>
+            ) : null}
+            {todayDueCount > 0 ? (
+              <SketchText variant="body" size="sm" style={styles.teaserToday}>
+                {todayDueCount} due today
+              </SketchText>
+            ) : null}
+          </View>
+        ) : null}
         {previewTitles.length > 0 ? (
           <View style={styles.previewList}>
             {previewTitles.map((line, index) => (
@@ -128,6 +149,18 @@ const styles = StyleSheet.create({
     color: Colors.accentBlue,
     fontWeight: '600',
   },
+  teaserRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+  },
+  teaserOverdue: {
+    color: Colors.danger,
+  },
+  teaserToday: {
+    color: Colors.accentBlue,
+  },
+  teaserSep: {},
   previewList: {
     gap: Spacing[1],
   },

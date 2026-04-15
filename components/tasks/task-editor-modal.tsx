@@ -56,6 +56,7 @@ export function TaskEditorModal({
         >
           {task ? (
             <TaskEditor
+              key={task.id}
               task={task}
               isNew={isNew}
               onClose={onClose}
@@ -80,7 +81,7 @@ const styles = StyleSheet.create({
   },
   sheet: {
     width: '100%',
-    maxHeight: '72%',
+    maxHeight: '88%',
     backgroundColor: Colors.surface,
     borderTopWidth: Border.default,
     borderLeftWidth: Border.default,
