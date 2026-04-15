@@ -1,22 +1,57 @@
 import { SketchText } from '@/components/sketch/sketch-text';
 import { Border, Colors, Radius, Spacing } from '@/constants/theme';
+import { useTasksHubPreview } from '@/hooks/use-tasks-hub-preview';
+import { useRouter } from 'expo-router';
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 
 export function KitHeroCard() {
+  const router = useRouter();
+  const { openCount, previewTitles } = useTasksHubPreview();
+
   return (
-    <View style={styles.wrap}>
-      <View style={styles.topRow}>
-        <View style={styles.chip} />
-        <SketchText variant="heading" size="3xl" style={styles.wordmark} numberOfLines={2}>
-          Saltz Toolkit
+    <Pressable
+      onPress={() => router.push('/tools/tasks')}
+      style={({ pressed }) => [styles.wrap, pressed && styles.wrapPressed]}
+      accessibilityRole="button"
+      accessibilityLabel={`Today's tasks, ${openCount} open. Open task list.`}
+    >
+
+
+      <View style={styles.tasksBlock}>
+        <View style={styles.tasksRule} />
+        <View style={styles.tasksTitleRow}>
+          <SketchText variant="heading" size="base" style={styles.tasksHeading}>
+            {"Today's tasks"}
+          </SketchText>
+          <SketchText variant="heading" size="base" style={styles.tasksCount}>
+            {` · ${openCount} open`}
+          </SketchText>
+        </View>
+        {previewTitles.length > 0 ? (
+          <View style={styles.previewList}>
+            {previewTitles.map((line, index) => (
+              <SketchText
+                key={`${index}-${line}`}
+                variant="body"
+                size="sm"
+                style={styles.previewLine}
+                numberOfLines={1}
+              >
+                — {line}
+              </SketchText>
+            ))}
+          </View>
+        ) : (
+          <SketchText variant="body" size="sm" muted style={styles.previewEmpty}>
+            Nothing queued — tap to jot one down.
+          </SketchText>
+        )}
+        <SketchText variant="body" size="sm" style={styles.cta}>
+          Open list →
         </SketchText>
       </View>
-      <View style={styles.rule} />
-      <SketchText variant="body" size="lg" style={styles.lede} muted>
-        Units, time, scan, scribble — the boring stuff, done well.
-      </SketchText>
-    </View>
+    </Pressable>
   );
 }
 
@@ -30,23 +65,10 @@ const styles = StyleSheet.create({
     paddingBottom: Spacing[5],
     ...Radius.wobblyMd,
   },
-  topRow: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    gap: Spacing[4],
+  wrapPressed: {
+    opacity: 0.94,
   },
-  chip: {
-    width: 14,
-    marginTop: Spacing[2],
-    minHeight: 56,
-    backgroundColor: Colors.accent,
-    ...Radius.sm,
-    transform: [{ rotate: '-2deg' }],
-  },
-  wordmark: {
-    flex: 1,
-    color: Colors.ink,
-  },
+  
   rule: {
     height: Border.thick,
     backgroundColor: Colors.ink,
@@ -58,5 +80,40 @@ const styles = StyleSheet.create({
   lede: {
     maxWidth: 320,
     lineHeight: 24,
+  },
+  tasksBlock: {
+    gap: Spacing[2],
+  },
+  tasksRule: {
+    height: Border.thin,
+    backgroundColor: Colors.border,
+    opacity: 0.9,
+    alignSelf: 'stretch',
+  },
+  tasksTitleRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'baseline',
+    gap: 0,
+  },
+  tasksHeading: {
+    color: Colors.ink,
+  },
+  tasksCount: {
+    color: Colors.accentBlue,
+    fontWeight: '600',
+  },
+  previewList: {
+    gap: Spacing[1],
+  },
+  previewLine: {
+    color: Colors.ink,
+  },
+  previewEmpty: {
+    lineHeight: 20,
+  },
+  cta: {
+    marginTop: Spacing[1],
+    color: Colors.accentBlue,
   },
 });

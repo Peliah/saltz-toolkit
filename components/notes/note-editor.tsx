@@ -1,10 +1,9 @@
 import { ScreenHeader } from '@/components/layout/screen-header';
-import { SketchScreen } from '@/components/sketch/sketch-screen';
 import { SketchText } from '@/components/sketch/sketch-text';
 import { Border, Colors, FontFamily, Radius, Spacing } from '@/constants/theme';
 import type { Note } from '@/types/notes';
 import React, { useState } from 'react';
-import { Pressable, StyleSheet, TextInput, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, TextInput, useWindowDimensions, View } from 'react-native';
 
 type NoteEditorProps = {
   note: Note;
@@ -16,11 +15,19 @@ type NoteEditorProps = {
 export function NoteEditor({ note, onClose, onSave, onDelete }: NoteEditorProps) {
   const [title, setTitle] = useState(note.title);
   const [body, setBody] = useState(note.body);
+  const { height: windowHeight } = useWindowDimensions();
+  /** Room below header inside the ~72% sheet so the form can scroll when tall. */
+  const scrollMaxHeight = Math.max(200, windowHeight * 0.72 - 130);
 
   return (
-    <SketchScreen>
-      <View style={styles.screen}>
-        <ScreenHeader title="Edit note" onBack={onClose} />
+    <View style={styles.screen}>
+      <ScreenHeader title="Edit note" onBack={onClose} />
+      <ScrollView
+        style={{ maxHeight: scrollMaxHeight }}
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.scrollContent}
+      >
         <SketchText variant="body" size="sm" style={styles.inputLabel}>
           Title
         </SketchText>
@@ -56,16 +63,17 @@ export function NoteEditor({ note, onClose, onSave, onDelete }: NoteEditorProps)
             </SketchText>
           </Pressable>
         </View>
-      </View>
-    </SketchScreen>
+      </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   screen: {
-    flex: 1,
-    paddingHorizontal: Spacing[6],
-    paddingBottom: Spacing[10],
+    width: '100%',
+  },
+  scrollContent: {
+    paddingBottom: Spacing[2],
   },
   inputLabel: {
     marginTop: Spacing[2],
