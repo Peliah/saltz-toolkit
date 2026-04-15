@@ -1,6 +1,7 @@
 import { SketchText } from '@/components/sketch/sketch-text';
 import { Border, Colors, Radius, Spacing } from '@/constants/theme';
 import { useTasksHubPreview } from '@/hooks/use-tasks-hub-preview';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
@@ -20,13 +21,25 @@ export function KitHeroCard() {
 
       <View style={styles.tasksBlock}>
         <View style={styles.tasksRule} />
-        <View style={styles.tasksTitleRow}>
-          <SketchText variant="heading" size="base" style={styles.tasksHeading}>
-            {"Today's tasks"}
-          </SketchText>
-          <SketchText variant="heading" size="base" style={styles.tasksCount}>
-            {` · ${openCount} open`}
-          </SketchText>
+        <View style={styles.tasksHeader}>
+          <Ionicons
+            name="calendar-outline"
+            size={24}
+            color={Colors.accentBlue}
+            style={styles.tasksCalendarIcon}
+            accessibilityElementsHidden
+            importantForAccessibility="no"
+          />
+          <View style={styles.tasksTitleWrap}>
+            <View style={styles.tasksTitleRow}>
+              <SketchText variant="heading" size="base" style={styles.tasksHeading}>
+                {"Today's tasks"}
+              </SketchText>
+              <SketchText variant="heading" size="base" style={styles.tasksCount}>
+                {` · ${openCount} open`}
+              </SketchText>
+            </View>
+          </View>
         </View>
         {previewTitles.length > 0 ? (
           <View style={styles.previewList}>
@@ -89,6 +102,18 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.border,
     opacity: 0.9,
     alignSelf: 'stretch',
+  },
+  tasksHeader: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: Spacing[3],
+  },
+  tasksCalendarIcon: {
+    marginTop: 2,
+  },
+  tasksTitleWrap: {
+    flex: 1,
+    minWidth: 0,
   },
   tasksTitleRow: {
     flexDirection: 'row',

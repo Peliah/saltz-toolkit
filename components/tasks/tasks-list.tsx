@@ -34,7 +34,7 @@ export function TasksList({
   return (
     <View style={styles.wrap}>
       <SketchText variant="body" size="sm" muted style={styles.intro}>
-        Saved on this device only. Works offline.
+        Saved list of tasks.
       </SketchText>
 
       <View style={styles.summary}>
