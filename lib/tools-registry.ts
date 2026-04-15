@@ -72,6 +72,15 @@ export const TOOLS = [
     status: 'live',
     hubVariant: 'compact',
   },
+  {
+    id: 'tasks',
+    title: 'Tasks',
+    subtitle: 'Checklist without the cloud',
+    iconName: 'checkbox-outline',
+    href: '/tools/tasks',
+    status: 'live',
+    hubVariant: 'compact',
+  },
 ] as const satisfies readonly ToolDef[];
 
 export type ToolId = (typeof TOOLS)[number]['id'];
