@@ -1,8 +1,11 @@
 import { SketchText } from '@/components/sketch/sketch-text';
+import { TaskSectionHeader } from '@/components/tasks/task-section-header';
+import { WeekStrip } from '@/components/tasks/week-strip';
 import { Border, Colors, Radius, Spacing } from '@/constants/theme';
+import { buildTaskSections, taskBucket } from '@/lib/tasks';
 import type { Task } from '@/types/tasks';
 import React, { useMemo } from 'react';
-import { FlatList, Pressable, StyleSheet, View } from 'react-native';
+import { Pressable, SectionList, StyleSheet, View } from 'react-native';
 
 import { TaskRow } from './task-row';
 
@@ -19,66 +22,95 @@ export function TasksList({
   onOpenTask,
   onToggleComplete,
 }: TasksListProps) {
-  const { openCount, doneCount, firstDoneIndex, listData } = useMemo(() => {
+  const now = useMemo(() => new Date(), []);
+
+  const sections = useMemo(() => buildTaskSections(tasks, now), [tasks, now]);
+
+  const stats = useMemo(() => {
     const open = tasks.filter((t) => !t.completed);
-    const done = tasks.filter((t) => t.completed);
-    const firstDone = tasks.findIndex((t) => t.completed);
     return {
-      openCount: open.length,
-      doneCount: done.length,
-      firstDoneIndex: firstDone === -1 ? -1 : firstDone,
-      listData: tasks,
+      open: open.length,
+      overdue: open.filter((t) => taskBucket(t, now) === 'overdue').length,
+      today: open.filter((t) => taskBucket(t, now) === 'today').length,
+      upcoming: open.filter((t) => taskBucket(t, now) === 'upcoming').length,
+      nodate: open.filter((t) => taskBucket(t, now) === 'nodate').length,
+      done: tasks.filter((t) => t.completed).length,
     };
-  }, [tasks]);
+  }, [tasks, now]);
 
-  return (
-    <View style={styles.wrap}>
-      <SketchText variant="body" size="sm" muted style={styles.intro}>
-        Saved list of tasks.
-      </SketchText>
+  const listHeader = (
+    <View style={styles.headerBlock}>
+      
 
-      <View style={styles.summary}>
+      <View style={styles.summaryCard}>
         <View style={styles.summaryRule} />
-        <View style={styles.summaryLine}>
-          <SketchText variant="heading" size="lg" style={styles.summaryEm}>
-            {openCount}
-          </SketchText>
-          <SketchText variant="heading" size="lg" style={styles.summaryPlain}>
-            {' '}open ·{' '}
-          </SketchText>
-          <SketchText variant="heading" size="lg" style={styles.summaryEm}>
-            {doneCount}
-          </SketchText>
-          <SketchText variant="heading" size="lg" style={styles.summaryPlain}>
-            {' '}
-            done
+        <SketchText variant="heading" size="lg" style={styles.summaryTitle}>
+          At a glance
+        </SketchText>
+        <View style={styles.statGrid}>
+          <View style={styles.statCell}>
+            <SketchText variant="heading" size="2xl" style={styles.statNum}>
+              {stats.open}
+            </SketchText>
+            <SketchText variant="body" size="sm" muted>
+              open
+            </SketchText>
+          </View>
+          <View style={[styles.statCell, styles.statDanger]}>
+            <SketchText variant="heading" size="2xl" style={styles.statNumDanger}>
+              {stats.overdue}
+            </SketchText>
+            <SketchText variant="body" size="sm" muted>
+              overdue
+            </SketchText>
+          </View>
+          <View style={[styles.statCell, styles.statBlue]}>
+            <SketchText variant="heading" size="2xl" style={styles.statNumBlue}>
+              {stats.today}
+            </SketchText>
+            <SketchText variant="body" size="sm" muted>
+              today
+            </SketchText>
+          </View>
+          <View style={styles.statCell}>
+            <SketchText variant="heading" size="2xl" style={styles.statNum}>
+              {stats.nodate}
+            </SketchText>
+            <SketchText variant="body" size="sm" muted>
+              no date
+            </SketchText>
+          </View>
+        </View>
+        <View style={styles.doneLine}>
+          <SketchText variant="body" size="sm" style={styles.doneLabel}>
+            {stats.done} completed
           </SketchText>
         </View>
       </View>
+
+      <WeekStrip />
 
       <Pressable onPress={onNew} style={({ pressed }) => [styles.newBtn, pressed && styles.newBtnPressed]}>
         <SketchText variant="heading" size="base" style={styles.newBtnLabel}>
           Add task
         </SketchText>
       </Pressable>
+    </View>
+  );
 
-      <FlatList
-        style={styles.flatList}
-        data={listData}
+  return (
+    <View style={styles.wrap}>
+      <SectionList
+        style={styles.list}
+        sections={sections}
         keyExtractor={(item) => item.id}
-        contentContainerStyle={styles.list}
-        ListEmptyComponent={
-          <SketchText variant="body" size="base" muted style={styles.empty}>
-            Nothing queued yet. Tap “Add task” when something occurs to you.
-          </SketchText>
-        }
-        renderItem={({ item, index }) => (
+        showsVerticalScrollIndicator={false}
+        overScrollMode="never"
+        renderSectionHeader={({ section }) => (
+          <TaskSectionHeader bucket={section.bucket} title={section.title} />
+        )}
+        renderItem={({ item }) => (
           <View style={styles.rowWrap}>
-            {index === firstDoneIndex && firstDoneIndex !== -1 ? (
-              <SketchText variant="heading" size="sm" style={styles.sectionLabel}>
-                Done
-              </SketchText>
-            ) : null}
             <TaskRow
               task={item}
               onOpen={() => onOpenTask(item)}
@@ -86,6 +118,22 @@ export function TasksList({
             />
           </View>
         )}
+        ListHeaderComponent={listHeader}
+        contentContainerStyle={styles.listContent}
+        stickySectionHeadersEnabled={false}
+        ListEmptyComponent={
+          tasks.length === 0 ? (
+            <View style={styles.emptyWrap}>
+              <SketchText variant="heading" size="lg" style={styles.emptyTitle}>
+                Nothing scheduled yet
+              </SketchText>
+              <SketchText variant="body" size="base" muted style={styles.emptyBody}>
+                Tap “Add task” for a quick jot—or give it a due date and it will land in Today,
+                Upcoming, or Overdue.
+              </SketchText>
+            </View>
+          ) : null
+        }
       />
     </View>
   );
@@ -95,33 +143,71 @@ const styles = StyleSheet.create({
   wrap: {
     flex: 1,
   },
-  intro: {
+  headerBlock: {
     marginBottom: Spacing[2],
   },
-  summary: {
+  intro: {
+    marginBottom: Spacing[3],
+  },
+  summaryCard: {
     marginBottom: Spacing[4],
-    gap: Spacing[2],
+    padding: Spacing[4],
+    borderWidth: Border.thin,
+    borderColor: Colors.border,
+    backgroundColor: Colors.surfaceMuted,
+    ...Radius.wobblyMd,
   },
   summaryRule: {
     height: 3,
-    width: 56,
+    width: 48,
     backgroundColor: Colors.accent,
-    opacity: 0.85,
+    marginBottom: Spacing[3],
     borderRadius: 2,
   },
-  summaryLine: {
+  summaryTitle: {
+    color: Colors.ink,
+    marginBottom: Spacing[3],
+  },
+  statGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    alignItems: 'baseline',
+    gap: Spacing[3],
   },
-  summaryPlain: {
+  statCell: {
+    minWidth: '42%',
+    flexGrow: 1,
+    padding: Spacing[3],
+    borderWidth: Border.thin,
+    borderColor: Colors.borderSubtle,
+    backgroundColor: Colors.white,
+    ...Radius.wobbly,
+  },
+  statDanger: {
+    borderColor: 'rgba(180, 35, 24, 0.35)',
+  },
+  statBlue: {
+    borderColor: 'rgba(53, 90, 115, 0.35)',
+  },
+  statNum: {
     color: Colors.ink,
   },
-  summaryEm: {
+  statNumDanger: {
+    color: Colors.danger,
+  },
+  statNumBlue: {
     color: Colors.accentBlue,
   },
+  doneLine: {
+    marginTop: Spacing[3],
+    paddingTop: Spacing[3],
+    borderTopWidth: Border.thin,
+    borderTopColor: Colors.borderSubtle,
+  },
+  doneLabel: {
+    color: Colors.inkMuted,
+  },
   newBtn: {
-    marginBottom: Spacing[4],
+    marginBottom: Spacing[2],
     paddingVertical: Spacing[3],
     alignItems: 'center',
     backgroundColor: Colors.accentMuted,
@@ -135,23 +221,28 @@ const styles = StyleSheet.create({
   newBtnLabel: {
     color: Colors.accentBlue,
   },
-  flatList: {
+  list: {
     flex: 1,
   },
-  list: {
-    paddingBottom: Spacing[10],
-    gap: Spacing[2],
+  listContent: {
+    paddingBottom: Spacing[12],
   },
   rowWrap: {
-    gap: Spacing[2],
+    marginBottom: Spacing[2],
   },
-  sectionLabel: {
-    marginTop: Spacing[2],
-    marginBottom: Spacing[1],
-    color: Colors.inkMuted,
+  emptyWrap: {
+    paddingVertical: Spacing[8],
+    paddingHorizontal: Spacing[2],
+    alignItems: 'center',
   },
-  empty: {
-    marginTop: Spacing[6],
+  emptyTitle: {
+    color: Colors.ink,
+    marginBottom: Spacing[2],
     textAlign: 'center',
+  },
+  emptyBody: {
+    textAlign: 'center',
+    lineHeight: 22,
+    maxWidth: 320,
   },
 });

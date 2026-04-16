@@ -1,15 +1,11 @@
+import { incompleteTasksFirst, taskBucket } from '@/lib/tasks';
 import { loadTasks } from '@/lib/tasks-storage';
-import { incompleteTasksFirst } from '@/lib/tasks';
 import type { Task } from '@/types/tasks';
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback, useMemo, useState } from 'react';
 
 const PREVIEW_LIMIT = 3;
 
-/**
- * Loads tasks for the kit hero; refreshes whenever the home tab gains focus
- * (e.g. after returning from /tools/tasks).
- */
 export function useTasksHubPreview() {
   const [tasks, setTasks] = useState<Task[]>([]);
 
@@ -35,8 +31,20 @@ export function useTasksHubPreview() {
     [incompleteOrdered]
   );
 
+  const overdueCount = useMemo(
+    () => incompleteOrdered.filter((t) => taskBucket(t) === 'overdue').length,
+    [incompleteOrdered]
+  );
+
+  const todayDueCount = useMemo(
+    () => incompleteOrdered.filter((t) => taskBucket(t) === 'today').length,
+    [incompleteOrdered]
+  );
+
   return {
     openCount,
+    overdueCount,
+    todayDueCount,
     previewTitles,
     refresh,
   };

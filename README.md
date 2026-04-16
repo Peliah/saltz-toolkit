@@ -10,7 +10,7 @@ Built with **Expo** and **React Native**, it targets **iOS** and **Android** (an
 
 ### Kit (home)
 
-- **Hero card** — Branding plus a short intro; the card doubles as **Today’s tasks**, showing how many items are open and a short preview; tap to open the full task list.
+- **Hero card** — **Today’s tasks** teaser: open count, optional **overdue / due today** counts, title preview, and tap-through to the full task list.
 - **Tool grid** — A bento-style launcher for every live tool (featured tiles for the heavy hitters, compact tiles for the rest).
 
 ### Tools
@@ -22,7 +22,7 @@ Built with **Expo** and **React Native**, it targets **iOS** and **Android** (an
 | **Calculator** | Quick arithmetic. |
 | **Passwords** | Generate strong random strings for passwords or secrets. |
 | **Notes** | Short notes stored **on device**; add, edit, and delete from a list. Editor opens in a **bottom sheet** so you stay oriented on the list behind it. |
-| **Tasks** | A simple **checklist**: add tasks, mark complete, reorder by state; edit titles in a sheet-style editor. Same **local-only** storage as notes—works offline, no account. |
+| **Tasks** | **UI-first scheduler**: optional **due date & time**, sections (Overdue / Today / Upcoming / No date / Done), an “at a glance” summary, and a decorative week strip. Edit in a bottom sheet (native date/time picker on iOS/Android). Same **local-only** storage as notes—works offline, no push notifications. (Timer is a separate tool, not linked from tasks.) |
 
 *(A QR scan tool route exists in the codebase but is not currently listed in the hub.)*
 
@@ -108,7 +108,7 @@ Exact profiles (`development`, `preview`, `production`, etc.) are defined in `ea
 | `app/` | File-based routes (Expo Router): tabs, tool screens, layouts |
 | `components/` | Reusable UI (sketch-themed primitives, kit hub, notes, tasks, layout) |
 | `hooks/` | React hooks for tool state and hub previews |
-| `lib/` | Helpers, persistence (e.g. AsyncStorage), tool registry |
+| `lib/` | Helpers, persistence (e.g. AsyncStorage), tool registry, due-date formatting |
 | `types/` | Shared TypeScript types |
 | `constants/` | Theme tokens (colors, spacing, typography) |
 | `assets/` | Images and fonts consumed by Expo |
